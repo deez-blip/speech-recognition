@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="speechNavigation.html">speech navigation</a>
+
+    <button id="searchButton">Recherche vocale</button>
+
+    <form id="searchForm" action="https://www.google.com/search" method="GET">
+        <input type="text" name="q" id="searchInput" placeholder="Recherche">
+    </form>
+
+    <script>
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+        let recognition = new SpeechRecognition()
+
+        // Configurez les paramètres de reconnaissance
+        recognition.lang = 'fr-FR';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+
+            recognition.start();
+
+            recognition.onresult = function(event) {
+                var searchText = event.results[0][0].transcript;
+                document.getElementById('searchInput').value = searchText;
+                document.getElementById('searchForm').submit();
+            };
+    });
+    </script>
+
+</body>
+</html>
